@@ -7,46 +7,6 @@ gsap.registerPlugin(ScrollTrigger);
 function About() {
   const sectionsRef = useRef([]);
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      sectionsRef.current.forEach((section, i) => {
-        if (!section) return;
-
-        const img = section.querySelector(".about-img");
-        const text = section.querySelector(".about-text");
-
-        gsap.from(img, {
-          x: i % 2 === 0 ? -100 : 100,
-          opacity: 0,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 85%",
-            end: "bottom 70%",
-            scrub: 1,
-          },
-        });
-
-        gsap.from(text, {
-          x: i % 2 === 0 ? 100 : -100,
-          opacity: 0,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 85%",
-            end: "bottom 70%",
-            scrub: 1,
-          },
-        });
-      });
-      ScrollTrigger.refresh();
-    });
-
-    return () => ctx.revert();
-  }, []);
-
   const aboutSections = [
     {
       img: "/about (8).png",
@@ -99,6 +59,47 @@ function About() {
       text: "Built 15+ real projects, completed certifications in React and ChatGPT integrations, implemented full-stack features (auth, deploy, analytics), and integrated AI assistants into user flows—skills shown across live demos and GitHub.",
     },
   ];
+
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      sectionsRef.current.forEach((section, i) => {
+        if (!section) return;
+
+        const img = section.querySelector(".about-img");
+        const text = section.querySelector(".about-text");
+
+        gsap.from(img, {
+          x: i % 2 === 0 ? -100 : 100,
+          opacity: 0,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 85%",
+            end: "bottom 70%",
+            scrub: 1,
+          },
+        });
+
+        gsap.from(text, {
+          x: i % 2 === 0 ? 100 : -100,
+          opacity: 0,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 85%",
+            end: "bottom 70%",
+            scrub: 1,
+          },
+        });
+      });
+      ScrollTrigger.refresh();
+    });
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 overflow-hidden transition-colors duration-500">
