@@ -1,13 +1,16 @@
 import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import imagesLoaded from "imagesloaded";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function About() {
   const sectionsRef = useRef([]);
+  const imgRefs = useRef([]);
+  const textRefs = useRef([]);
 
-  const aboutSections = [
+ const aboutSections = [
     {
       img: "/about (8).png",
       title: "Who I Am",
@@ -60,45 +63,55 @@ function About() {
     },
   ];
 
-
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      sectionsRef.current.forEach((section, i) => {
-        if (!section) return;
+    
+    const imgs = imgRefs.current;
+    imagesLoaded(imgs, { background: true }, () => {
+      const ctx = gsap.context(() => {
+        imgRefs.current.forEach((img, i) => {
+          const text = textRefs.current[i];
+          if (!img || !text) return;
 
-        const img = section.querySelector(".about-img");
-        const text = section.querySelector(".about-text");
+          gsap.fromTo(
+            img,
+            { x: i % 2 === 0 ? -100 : 100, opacity: 0 },
+            {
+              x: 0,
+              opacity: 1,
+              duration: 1.2,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: img,
+                start: "top 85%",
+                end: "bottom 70%",
+                scrub: 1,
+              },
+            }
+          );
 
-        gsap.from(img, {
-          x: i % 2 === 0 ? -100 : 100,
-          opacity: 0,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 85%",
-            end: "bottom 70%",
-            scrub: 1,
-          },
+          gsap.fromTo(
+            text,
+            { x: i % 2 === 0 ? 100 : -100, opacity: 0 },
+            {
+              x: 0,
+              opacity: 1,
+              duration: 1.2,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: text,
+                start: "top 85%",
+                end: "bottom 70%",
+                scrub: 1,
+              },
+            }
+          );
         });
 
-        gsap.from(text, {
-          x: i % 2 === 0 ? 100 : -100,
-          opacity: 0,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 85%",
-            end: "bottom 70%",
-            scrub: 1,
-          },
-        });
+        ScrollTrigger.refresh();
       });
-      ScrollTrigger.refresh();
-    });
 
-    return () => ctx.revert();
+      return () => ctx.revert();
+    });
   }, []);
 
   return (
@@ -107,19 +120,20 @@ function About() {
         <section
           key={i}
           ref={(el) => (sectionsRef.current[i] = el)}
-          className={`min-h-[70vh] flex flex-col md:flex-row items-center justify-evenly py-20 px-10 md:px-24 relative transition-colors duration-500 ${
+          className={`min-h-[70vh] flex flex-col md:flex-row items-center justify-evenly py-20 px-10 md:px-24 relative ${
             i % 2 !== 0 ? "md:flex-row-reverse" : ""
           }`}
         >
-          {/* Decorative glow */}
+         
           <div
-            className={`absolute ${
-              i % 2 === 0 ? "right-10" : "left-10"
-            } top-10 w-64 h-64 bg-green-400/20 dark:bg-green-500/10 rounded-full blur-3xl`}
+            className={`absolute ${i % 2 === 0 ? "right-10" : "left-10"} top-10 w-64 h-64 bg-green-400/20 dark:bg-green-500/10 rounded-full blur-3xl`}
           ></div>
 
-          {/* Image Section */}
-          <div className="about-img relative md:w-[30vw] h-[50vh] flex justify-center items-center mb-10 md:mb-0">
+        
+          <div
+            ref={(el) => (imgRefs.current[i] = el)}
+            className="about-img relative md:w-[30vw] h-[50vh] flex justify-center items-center mb-10 md:mb-0"
+          >
             <div className="absolute -inset-2 bg-green-400/40 dark:bg-green-400/20 blur-xl rounded-3xl"></div>
             <img
               src={sec.img}
@@ -128,14 +142,13 @@ function About() {
             />
           </div>
 
-          {/* Text Section */}
-          <div className="about-text md:w-[50vw] space-y-6 text-center md:text-left z-10">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-green-600 dark:text-green-400">
-              {sec.title}
-            </h2>
-            <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
-              {sec.text}
-            </p>
+        
+          <div
+            ref={(el) => (textRefs.current[i] = el)}
+            className="about-text md:w-[50vw] space-y-6 text-center md:text-left z-10"
+          >
+            <h2 className="text-4xl md:text-5xl font-extrabold text-green-600 dark:text-green-400">{sec.title}</h2>
+            <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">{sec.text}</p>
           </div>
         </section>
       ))}
