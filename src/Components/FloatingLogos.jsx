@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useNavigate } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,7 +20,6 @@ const useTypewriter = (text, speed = 80) => {
 };
 
 function FloatingLogos() {
-  const navigate = useNavigate();
   const leftRef = useRef(null);
   const rightRef = useRef(null);
   const textRef = useRef(null);
@@ -32,9 +30,7 @@ function FloatingLogos() {
     "Hi, I'm Sagar Singh Rajawat — Fullstack Developer",
     60
   );
-  const sa = () =>{
-    navigate("/about")
-  }
+
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -134,15 +130,22 @@ function FloatingLogos() {
           {text}
         </h2>
         <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-          Passionate about building stunning, high-performance web experiences
-          using <span className="font-semibold text-green-400">React</span>,{" "}
-          <span className="font-semibold text-green-400">Node.js</span>,{" "}
-          <span className="font-semibold text-green-400">Python</span>, and{" "}
-          <span className="font-semibold text-green-400">MongoDB</span>.
-        </p>
-        <button onClick={sa} className="px-8 py-3 bg-green-500 text-white font-semibold rounded-xl shadow-lg hover:bg-green-600 hover:scale-105 transition-all duration-300">
-          More about..
-        </button>
+  Passionate about building <span className="font-semibold text-green-400">stunning</span>, 
+  high-performance web experiences and scalable applications as a 
+  <span className="font-semibold text-green-400"> Full-Stack Developer</span> using 
+  <span className="font-semibold text-green-400"> React</span>, 
+  <span className="font-semibold text-green-400"> Node.js</span>, 
+  <span className="font-semibold text-green-400"> Python</span>, and 
+  <span className="font-semibold text-green-400"> MongoDB</span>.  
+  Experienced in creating <span className="font-semibold text-green-400">RESTful APIs</span>, 
+  integrating <span className="font-semibold text-green-400">databases</span>, 
+  and implementing <span className="font-semibold text-green-400">responsive UI/UX designs</span> 
+  with <span className="font-semibold text-green-400">Tailwind CSS</span> and modern frontend tools. 
+  Always eager to learn new technologies and deliver <span className="font-semibold text-green-400">efficient</span> and 
+  <span className="font-semibold text-green-400">maintainable code</span>.
+</p>
+
+      
       </div>
 
       
